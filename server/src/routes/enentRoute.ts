@@ -32,15 +32,17 @@
 // export default router;
 
 import express from 'express';
-import { createEvent, getEvents, deleteEvent, participateEvent, editEvent, getOrganizationEvents, getParticipatedEvents } from '../controllers/eventController';
+import { createEvent, getEvents, deleteEvent, participateEvent, editEvent, getOrganizationEvents, getParticipatedEvents, getMonthlyEventCount, getEventTypeDistribution } from '../controllers/eventController';
 import { authMiddleware, checkRole } from '../middlewares/authMiddleware';
+import upload from '../config/s3';
 
 const router = express.Router();
 
 // Organization routes
-router.post('/create', authMiddleware, checkRole(['organization']), createEvent);
+router.post('/create', authMiddleware, upload.single('image'),checkRole(['organization']), createEvent);
 router.put('/edit/:id', authMiddleware, checkRole(['organization']), editEvent);
 router.delete('/:id', authMiddleware, checkRole(['organization','admin']), deleteEvent);
+// router.get('/events', getVolunteerOpportunities)
 
 // Admin routes
 router.get('/all', authMiddleware, checkRole(['admin', 'volunteer']), getEvents);
@@ -57,6 +59,15 @@ router.get('/participated/:userId', authMiddleware, checkRole(['volunteer']), ge
 
 // Additional routes for organization-specific actions
 router.get('/organization', authMiddleware, checkRole(['organization']), getOrganizationEvents);
+
+// Route to get monthly event counts
+router.get('/events/monthly', getMonthlyEventCount);
+
+// Route to get monthly donations
+// router.get('/donations/monthly', getMonthlyDonations);
+
+// Route to get event type distribution
+router.get('/events/types', getEventTypeDistribution);
 
 export default router;
 

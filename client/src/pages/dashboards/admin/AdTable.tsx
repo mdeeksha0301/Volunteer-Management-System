@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { FaRegTrashAlt } from 'react-icons/fa'; 
+import { FaRegTrashAlt } from 'react-icons/fa';
 
 // Define interfaces for different data types
 interface Event {
@@ -23,7 +23,6 @@ interface Organization {
   organizationName: string;
   email: string;
   phoneNumber: number;
-  contact: string;
 }
 
 interface Donation {
@@ -43,7 +42,6 @@ interface AdTableProps {
 const AdTable: React.FC<AdTableProps> = ({ type }) => {
   const [data, setData] = useState<DataType[]>([]);
   const [loading, setLoading] = useState(true);
-  // const { darkMode } = useDarkMode(); // Use dark mode context
 
   useEffect(() => {
     fetchData();
@@ -92,42 +90,38 @@ const AdTable: React.FC<AdTableProps> = ({ type }) => {
     switch (type) {
       case 'events':
         return (
-          <tr className="dark:bg-primary bg-fivth border-b dark:border-secondary border-primary dark:text-third">
-            <th className="p-2 text-center">ID</th>
-            <th className="p-2 text-center">Title</th>
-            <th className="p-2 text-center">Date</th>
-            <th className="p-2 text-center">Location</th>
-            <th className="p-2 text-center">Actions</th>
+          <tr className="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+            <th className="p-4 text-left">Title</th>
+            <th className="p-4 text-left">Date</th>
+            <th className="p-4 text-left">Location</th>
+            <th className="p-4 text-left">Actions</th>
           </tr>
         );
       case 'volunteer':
         return (
-          <tr className="dark:bg-primary bg-fivth border-b dark:border-secondary border-primary dark:text-third">
-            <th className="p-2 text-center">ID</th>
-            <th className="p-2 text-center">User Name</th>
-            <th className="p-2 text-center">Email</th>
-            <th className="p-2 text-center">Phone Number</th>
-            <th className="p-2 text-center">Actions</th>
+          <tr className="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+            <th className="p-4 text-left">User Name</th>
+            <th className="p-4 text-left">Email</th>
+            <th className="p-4 text-left">Phone Number</th>
+            <th className="p-4 text-left">Actions</th>
           </tr>
         );
       case 'organizations':
         return (
-          <tr className="dark:bg-primary bg-fivth border-b dark:border-secondary border-primary dark:text-third">
-            <th className="p-2 text-center">ID</th>
-            <th className="p-2 text-center">Name</th>
-            <th className="p-2 text-center">Email</th>
-            <th className="p-2 text-center">Phone</th>
-            <th className="p-2 text-center">Actions</th>
+          <tr className="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+            <th className="p-4 text-left">Name</th>
+            <th className="p-4 text-left">Email</th>
+            <th className="p-4 text-left">Phone</th>
+            <th className="p-4 text-left">Actions</th>
           </tr>
         );
       case 'donations':
         return (
-          <tr className="dark:bg-primary bg-fivth border-b dark:border-secondary border-primary dark:text-third">
-            <th className="p-2 text-center">ID</th>
-            <th className="p-2 text-center">Donor Name</th>
-            <th className="p-2 text-center">Amount</th>
-            <th className="p-2 text-center">Donation Date</th>
-            <th className="p-2 text-center">Actions</th>
+          <tr className="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+            <th className="p-4 text-left">Donor Name</th>
+            <th className="p-4 text-left">Amount</th>
+            <th className="p-4 text-left">Donation Date</th>
+            <th className="p-4 text-left">Actions</th>
           </tr>
         );
       default:
@@ -139,16 +133,16 @@ const AdTable: React.FC<AdTableProps> = ({ type }) => {
   const renderTableRows = () => {
     if (loading) {
       return (
-        <tr className="dark:bg-secondary bg-fifth text-primary dark:text-fifth border-b dark:border-secondary border-primary">
-          <td colSpan={5} className="p-2 text-center">Loading...</td>
+        <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
+          <td colSpan={4} className="p-4 text-center">Loading...</td>
         </tr>
       );
     }
 
     if (!Array.isArray(data) || data.length === 0) {
       return (
-        <tr className="dark:bg-secondary bg-fifth text-primary dark:text-fifth border-b dark:border-secondary border-primary">
-          <td colSpan={5} className="p-2 text-center">No data available</td>
+        <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
+          <td colSpan={4} className="p-4 text-center">No data available</td>
         </tr>
       );
     }
@@ -156,13 +150,12 @@ const AdTable: React.FC<AdTableProps> = ({ type }) => {
     switch (type) {
       case 'events':
         return (data as Event[]).map((event) => (
-          <tr key={event._id} className="dark:bg-secondary bg-fifth text-primary dark:text-fifth border-b dark:border-secondary border-primary">
-            <td className="p-2 text-center">{event._id}</td>
-            <td className="p-2 text-center">{event.title}</td>
-            <td className="p-2 text-center">{event.date}</td>
-            <td className="p-2 text-center">{event.location}</td>
-            <td className="p-2 text-center">
-              <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(event._id)}>
+          <tr key={event._id} className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+            <td className="p-4">{event.title}</td>
+            <td className="p-4">{event.date}</td>
+            <td className="p-4">{event.location}</td>
+            <td className="p-4">
+              <button className="text-red-500 hover:text-red-700 dark:text-red-300 dark:hover:text-red-400" onClick={() => handleDelete(event._id)}>
                 <FaRegTrashAlt />
               </button>
             </td>
@@ -170,13 +163,12 @@ const AdTable: React.FC<AdTableProps> = ({ type }) => {
         ));
       case 'volunteer':
         return (data as Volunteer[]).map((vol) => (
-          <tr key={vol._id} className="dark:bg-secondary bg-fifth text-primary dark:text-fifth border-b dark:border-secondary border-primary">
-            <td className="p-2 text-center">{vol._id}</td>
-            <td className="p-2 text-center">{vol.userName || 'Unknown'}</td>
-            <td className="p-2 text-center">{vol.email}</td>
-            <td className="p-2 text-center">{vol.phoneNumber}</td>
-            <td className="p-2 text-center">
-              <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(vol._id)}>
+          <tr key={vol._id} className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+            <td className="p-4">{vol.userName || 'Unknown'}</td>
+            <td className="p-4">{vol.email}</td>
+            <td className="p-4">{vol.phoneNumber}</td>
+            <td className="p-4">
+              <button className="text-red-500 hover:text-red-700 dark:text-red-300 dark:hover:text-red-400" onClick={() => handleDelete(vol._id)}>
                 <FaRegTrashAlt />
               </button>
             </td>
@@ -184,13 +176,12 @@ const AdTable: React.FC<AdTableProps> = ({ type }) => {
         ));
       case 'organizations':
         return (data as Organization[]).map((organization) => (
-          <tr key={organization._id} className="dark:bg-secondary bg-fifth text-primary dark:text-fifth border-b dark:border-secondary border-primary">
-            <td className="p-2 text-center">{organization._id}</td>
-            <td className="p-2 text-center">{organization.organizationName}</td>
-            <td className="p-2 text-center">{organization.email}</td>
-            <td className="p-2 text-center">{organization.phoneNumber}</td>
-            <td className="p-2 text-center">
-              <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(organization._id)}>
+          <tr key={organization._id} className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+            <td className="p-4">{organization.organizationName}</td>
+            <td className="p-4">{organization.email}</td>
+            <td className="p-4">{organization.phoneNumber}</td>
+            <td className="p-4">
+              <button className="text-red-500 hover:text-red-700 dark:text-red-300 dark:hover:text-red-400" onClick={() => handleDelete(organization._id)}>
                 <FaRegTrashAlt />
               </button>
             </td>
@@ -198,13 +189,12 @@ const AdTable: React.FC<AdTableProps> = ({ type }) => {
         ));
       case 'donations':
         return (data as Donation[]).map((donation) => (
-          <tr key={donation._id} className="dark:bg-secondary bg-fifth text-primary dark:text-fifth border-b dark:border-secondary border-primary">
-            <td className="p-2 text-center">{donation._id}</td>
-            <td className="p-2 text-center">{donation.donorName}</td>
-            <td className="p-2 text-center">{donation.amount}</td>
-            <td className="p-2 text-center">{donation.donationDate}</td>
-            <td className="p-2 text-center">
-              <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(donation._id)}>
+          <tr key={donation._id} className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+            <td className="p-4">{donation.donorName}</td>
+            <td className="p-4">{donation.amount}</td>
+            <td className="p-4">{donation.donationDate}</td>
+            <td className="p-4">
+              <button className="text-red-500 hover:text-red-700 dark:text-red-300 dark:hover:text-red-400" onClick={() => handleDelete(donation._id)}>
                 <FaRegTrashAlt />
               </button>
             </td>
@@ -216,9 +206,11 @@ const AdTable: React.FC<AdTableProps> = ({ type }) => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-4 text-primary dark:text-fifth">{type.charAt(0).toUpperCase() + type.slice(1)} List</h1>
-      <table className="min-w-full bg-fifth dark:bg-primary border-collapse">
+    <div className="container mx-auto p-6 bg-gray-50 dark:bg-gray-900 min-h-screen shadow-md">
+      <h1 className="text-3xl font-semibold mb-6 text-gray-800 dark:text-gray-100 text-center">
+        {type.charAt(0).toUpperCase() + type.slice(1)} List
+      </h1>
+      <table className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden text-center">
         <thead>{renderTableHeaders()}</thead>
         <tbody>{renderTableRows()}</tbody>
       </table>

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import Donation, { IDonation } from '../models/DonationModel'; // Import Donation model
+import Donation, { IDonation } from '../models/Donation'; // Import Donation model
 import VolunteerOpportunity, { IVolunteerOpportunity } from '../models/EventModel';
 
 // get volunteers

@@ -8,7 +8,8 @@ export interface IVolunteerOpportunity extends Document {
   country: string;
   city: string;
   location: string;
-  image?: string;
+  image?: [string];
+  type: string;
   volunteers: Array<Schema.Types.ObjectId | string>;
   // participatedVolunteers: Array<Schema.Types.ObjectId | string>; 
   participatedEvents: Array<Schema.Types.ObjectId | string>;
@@ -34,8 +35,12 @@ const VolunteerOpportunitySchema: Schema = new Schema({
     // minLength: [20, "Location must contian at least 20 characters!"],
   },
   image: {
-    type: String,
+    type: [String],
     required: [false],
+  },
+  type: {
+    type: String,
+    required: [true, "Please provide a type."],
   },
   volunteers: [{ type: Schema.Types.ObjectId, ref: 'user' }],
   // participatedVolunteers: [{ type: Schema.Types.ObjectId, ref: 'User' }], // New field

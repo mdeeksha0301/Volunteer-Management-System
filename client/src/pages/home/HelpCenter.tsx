@@ -22,7 +22,7 @@ const HelpCenter = () => {
 
   return (
     <div className="container mx-auto py-8 px-4 bg-primary w-full">
-      <div className="max-w-5xl max-lg:max-w-3xl mx-auto bg-white my-6 font-[sans-serif]">
+      <div className="max-w-5xl max-lg:max-w-3xl mx-auto bg-primary my-6 font-[sans-serif]">
         <div className="text-center px-6">
           <h2 className="text-gray-800 text-3xl font-extrabold">Contact Us</h2>
           <p className="text-sm text-gray-500 mt-4">Have some big idea or brand to develop and need help?</p>

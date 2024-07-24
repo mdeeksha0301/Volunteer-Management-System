@@ -7,7 +7,9 @@ import adminRouter from './routes/adminRoute';
 import dotenv from 'dotenv';
 import enentRoute from "./routes/enentRoute";
 import cookieParser from 'cookie-parser';
+import donationRoutes from './routes/donationRoutes'
 import morgan from 'morgan';
+import paymentRoutes from './routes/paymentRoutes';
 
 const app = express();
 dotenv.config(); 
@@ -28,6 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 // app.use('/api/auth', authRoutes);
 app.use('/api', reviewRoutes);
+app.use('/donation', donationRoutes);
+app.use('/api/payments', paymentRoutes);
 app.use('/auth', authRoutes);
 app.use('/event', enentRoute);
 app.use('/admin', adminRouter);

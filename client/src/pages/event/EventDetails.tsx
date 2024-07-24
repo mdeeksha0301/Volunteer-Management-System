@@ -3,36 +3,52 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { Context } from '../../context/AuthUser';
+import EventFilter from './EventFilter';
 
 interface Event {
   _id: string;
   title: string;
   description: string;
   date: string;
+  location: string;
+  type: string;
+  image?: string; // Optional image property
 }
 
 const EventDetails: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
-  const { token, user, fetchParticipatedEvents } = useContext(Context);
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
+  const { token, user, fetchParticipatedEvents, isAuthorized } = useContext(Context);
+
+  // Array of placeholder image URLs
+  const placeholderImages = [
+    "https://via.placeholder.com/300x200?text=Event+1",
+    "https://via.placeholder.com/300x200?text=Event+2",
+    "https://via.placeholder.com/300x200?text=Event+3",
+    "https://via.placeholder.com/300x200?text=Event+4",
+  ];
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/event/all', {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setEvents(response.data.events);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-        toast.error('Error fetching events');
-      }
-    };
+    if (isAuthorized && token) {
+      const fetchEvents = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/event/all', {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setEvents(response.data.events);
+          setFilteredEvents(response.data.events);
+        } catch (error) {
+          console.error('Error fetching events:', error);
+          toast.error('Error fetching events');
+        }
+      };
 
-    fetchEvents();
-  }, [token]);
+      fetchEvents();
+    }
+  }, [token, isAuthorized]);
 
   const participateInEvent = async (eventId: string) => {
     try {
@@ -65,6 +81,7 @@ const EventDetails: React.FC = () => {
         },
       });
       setEvents(events.filter(event => event._id !== eventId));
+      setFilteredEvents(filteredEvents.filter(event => event._id !== eventId));
       toast.success('Event deleted successfully');
     } catch (error) {
       if (axios.isAxiosError(error) && error.response && error.response.status === 403) {
@@ -76,38 +93,55 @@ const EventDetails: React.FC = () => {
     }
   };
 
-  return (
-    <div className="p-4 dark:bg-primary bg-white min-h-screen">
-      <Toaster position="top-right" />
-      <h2 className="text-xl font-bold mb-2 dark:text-fifth text-primary">All Events</h2>
-      <div className="grid grid-cols-3 gap-4">
-  {events.map((event) => (
-    <div key={event._id} className="w-full p-4 shadow-md rounded-md dark:bg-secondary bg-fifth">
-      <h3 className="text-lg font-semibold dark:text-primary text-third">{event.title}</h3>
-      <p className="text-gray-600 dark:text-fourth">{event.description}</p>
-      <p className="text-gray-500 dark:text-fourth">Date: {new Date(event.date).toLocaleDateString()}</p>
-      {user.role === 'volunteer' && (
-        <button
-          onClick={() => participateInEvent(event._id)}
-          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-        >
-          Participate
-        </button>
-      )}
-      {user.role === 'admin' && (
-        <button
-          onClick={() => deleteEvent(event._id)}
-          className="mt-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 flex items-center"
-        >
-          <FaRegTrashAlt className="mr-2" /> Delete
-        </button>
-      )}
-    </div>
-  ))}
-</div>
+  const handleFilter = (filtered: Event[]) => {
+    setFilteredEvents(filtered);
+  };
 
-        {/* ))} */}
-      {/* </div> */}
+  return (
+    <div className="p-6 dark:bg-gray-900 min-h-screen">
+      <Toaster position="top-right" />
+      <div className="w-full max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold mb-6 text-center text-primary dark:text-secondary">All Events</h2>
+        <EventFilter events={events} onFilter={handleFilter} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          {filteredEvents.length > 0 ? (
+            filteredEvents.map((event) => (
+              <div key={event._id} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+                <img
+                  src={event.image || placeholderImages[Math.floor(Math.random() * placeholderImages.length)]}
+                  alt={event.title}
+                  className="w-full h-48 object-cover rounded-md mb-4"
+                />
+                <h3 className="text-2xl font-semibold mb-2 text-primary dark:text-secondary">{event.title}</h3>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">{event.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-2"><strong>Date:</strong> {new Date(event.date).toDateString()}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-2"><strong>Location:</strong> {event.location}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-4"><strong>Type:</strong> {event.type}</p>
+                <div className="flex gap-4">
+                  {user.role === 'volunteer' && (
+                    <button
+                      onClick={() => participateInEvent(event._id)}
+                      className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition-colors"
+                    >
+                      Participate
+                    </button>
+                  )}
+                  {user.role === 'admin' && (
+                    <button
+                      onClick={() => deleteEvent(event._id)}
+                      className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 flex items-center gap-2 transition-colors"
+                    >
+                      <FaRegTrashAlt className="text-lg" /> Delete
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-600 dark:text-gray-400">No events found.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

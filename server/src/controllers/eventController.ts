@@ -24,39 +24,109 @@
 
 import { Request, Response } from 'express';
 import VolunteerOpportunity, { IVolunteerOpportunity } from '../models/EventModel';
+import upload from '../config/s3';
+
+
+// Create a new event (Organization)
+// export const createEvent = async (req: Request, res: Response) => {
+//   // upload.single('image')(req, res, async (err: any) => {
+//   //   if (err) {
+//   //     return res.status(500).json({ message: 'Error uploading image', error: err });
+//   //   }
+
+//     // Type assertion for req.file
+//     // const file = req.file as Express.MulterS3.File;
+
+//     // if (!file) {
+//     //   return res.status(400).json({ message: 'No file uploaded' });
+//     // }
+
+//     try {
+//       const { title, description, date, country, city, location, image} = req.body;
+
+//       if (!req.body.user) {
+//         return res.status(403).json({ message: 'User not authenticated' });
+//       }
+
+//       const event = new VolunteerOpportunity({
+//         organization: req.body.user._id,
+//         title,
+//         description,
+//         date,
+//         country,
+//         city,
+//         location,
+//         // image: file.location, // Use the location property from S3
+//         image,
+//       });
+
+//       await event.save();
+//       res.status(201).json({ message: 'Event created successfully', event });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: 'Server error' });
+//     }
+//   });
+// };
 
 // Create a new event (Organization)
 export const createEvent = async (req: Request, res: Response) => {
-    try {
-        const { title, description, date, country, city, location, image } = req.body;
-        const event = new VolunteerOpportunity({
-            organization: req.body.user._id,
-            title,
-            description,
-            date,
-            country,
-            city,
-            location,
-            image
-        });
-        await event.save();
-        res.status(201).json({ message: 'Event created successfully', event });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+  try {
+      const { title, description, date, country, city, location, image, type } = req.body;
+      // Validate input if necessary
+    if (!title || !description || !date || !country || !city || !location || !type || !image) {
+      return res.status(400).json({ message: 'Missing required fields' });
     }
+      const event = new VolunteerOpportunity({
+          organization: req.body.user._id,
+          title,
+          description,
+          date,
+          country,
+          city,
+          location,
+          type,
+          image
+      });
+      await event.save();
+      res.status(201).json({ message: 'Event created successfully', event });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+  }
 };
 
+
+
+
 // Get all events (Admin and Volunteers)
+// export const getEvents = async (req: Request, res: Response) => {
+//     try {
+//         const events = await VolunteerOpportunity.find().populate('organizationName');
+//         console.log(events)
+//         res.status(200).json({ events });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: 'Server error' });
+//     }
+// };
+
 export const getEvents = async (req: Request, res: Response) => {
-    try {
-        const events = await VolunteerOpportunity.find().populate('organizationName');
-        console.log(events)
-        res.status(200).json({ events });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+  try {
+    const userId = req.body.user?._id; // Check if user is logged in
+    const events = await VolunteerOpportunity.find().populate('organizationName');
+    
+    // If the user is logged in, send events with the participation option
+    if (userId) {
+      res.status(200).json({ events, isLoggedIn: true });
+    } else {
+      // If not logged in, send events without the participation option
+      res.status(200).json({ events, isLoggedIn: false });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
 
 // PUT /event/:id
@@ -141,3 +211,49 @@ export const getParticipatedEvents = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+// In your Event Controller
+
+export const getMonthlyEventCount = async (req: Request, res: Response) => {
+  try {
+      const events = await VolunteerOpportunity.aggregate([
+          {
+              $group: {
+                  _id: { $dateToString: { format: "%Y-%m", date: "$date" } },
+                  count: { $sum: 1 }
+              }
+          },
+          {
+              $sort: { _id: 1 }
+          }
+      ]);
+
+      res.status(200).json(events);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+// In your Event Controller
+
+export const getEventTypeDistribution = async (req: Request, res: Response) => {
+  try {
+      const events = await VolunteerOpportunity.aggregate([
+          {
+              $group: {
+                  _id: "$type",
+                  count: { $sum: 1 }
+              }
+          }
+      ]);
+
+      res.status(200).json(events);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+  }
+};
+
+

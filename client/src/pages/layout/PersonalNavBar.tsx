@@ -5,10 +5,10 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '../../components/ThemeToggle';
+import { FaHome, FaCalendarAlt, FaTachometerAlt, FaDonate, FaUsers, FaPlusCircle, FaListAlt } from 'react-icons/fa';
 
-const PersonalNavBar = () => {
-    const [show, setShow] = useState(false);
-    const {isAuthorized, setIsAuthorized, user, setToken, setUser} = useContext(Context);
+const PersonalNavBar: React.FC = () => {
+    const { isAuthorized, setIsAuthorized, user, setToken, setUser } = useContext(Context);
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -18,7 +18,6 @@ const PersonalNavBar = () => {
             setToken(null);
             setIsAuthorized(false);
             setUser(null); // Clear user state
-            // setParticipatedEvents([]); 
             navigate('/');
         } catch (err) {
             const error = err as any;
@@ -28,29 +27,53 @@ const PersonalNavBar = () => {
     };
 
     const renderLinks = () => {
-        switch(user.role) {
+        switch (user.role) {
             case 'admin':
                 return (
                     <>
-                        <Link to="/admin-dashboard/events" className="hover:text-gray-300 text-primary dark:text-fivth">Events</Link>
-                        <Link to="/admin-dashboard/donations" className="hover:text-gray-300 text-primary dark:text-fivth">Donations</Link>
-                        <Link to="/admin-dashboard/organizations" className="hover:text-gray-300 text-primary dark:text-fivth">Organizations</Link>
-                        <Link to="/admin-dashboard/volunteers" className="hover:text-gray-300 text-primary dark:text-fivth">Volunteer</Link>
+                        <Link to="/admin-dashboard" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaTachometerAlt /> <span>Dashboard</span>
+                        </Link>
+                        <Link to="/admin-dashboard/events" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaCalendarAlt /> <span>Events</span>
+                        </Link>
+                        <Link to="/admin-dashboard/organizations" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaUsers /> <span>Organizations</span>
+                        </Link>
+                        <Link to="/admin-dashboard/volunteers" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaUsers /> <span>Volunteers</span>
+                        </Link>
                     </>
                 );
             case 'organization':
                 return (
                     <>
-                        <Link to="/organization" className="hover:text-gray-300 text-primary dark:text-fivth">My Events</Link>
-                        <Link to="/organization/new" className="hover:text-gray-300 text-primary dark:text-fivth">Create Events</Link>
-                        <Link to="/organization/my-donations" className="hover:text-gray-300 text-primary dark:text-fivth">My Donations</Link>
+                        <Link to="/organization" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaTachometerAlt /> <span>Dashboard</span>
+                        </Link>
+                        <Link to="/organization/my-events" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaListAlt /> <span>My Events</span>
+                        </Link>
+                        <Link to="/organization/new" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaPlusCircle /> <span>Create Events</span>
+                        </Link>
                     </>
                 );
             case 'volunteer':
                 return (
                     <>
-                        <Link to="/volunteer-dashboard/my-events" className="hover:text-gray-300 text-primary dark:text-fivth">My Activities</Link>
-                        <Link to="/volunteer-dashboard/all-events" className="hover:text-gray-300 text-primary dark:text-fivth">Events</Link>
+                        <Link to="/volunteer-dashboard" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaTachometerAlt /> <span>Dashboard</span>
+                        </Link>
+                        <Link to="/volunteer-dashboard/my-events" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaListAlt /> <span>My Activities</span>
+                        </Link>
+                        <Link to="/volunteer-dashboard/all-events" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaCalendarAlt /> <span>Events</span>
+                        </Link>
+                        <Link to="/volunteer-dashboard/donations" className="text-primary dark:text-fivth flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                            <FaDonate /> <span>Donations</span>
+                        </Link>
                     </>
                 );
             default:
@@ -59,26 +82,26 @@ const PersonalNavBar = () => {
     };
 
     return (
-        <div>
-            <nav className={`bg-secondary text-white dark:bg-primary ${isAuthorized ? 'navbarShow' : 'navbarHide'}`}>
-                <div className="container mx-auto p-4 flex justify-between items-center">
-                    <div className="text-lg font-semibold text-third ">
-                        <Link to="/">Volunteer Management</Link>
-                    </div>
-                    <div className={`hidden md:flex space-x-4 ${!show ? "menu" : "show-menu menu"}`}>
+        <div className="bg-secondary dark:bg-primary text-white shadow-md">
+            <div className="container mx-auto flex items-center justify-between p-4">
+                <div className="flex items-center space-x-4">
+                    <Link to="/" className="text-lg font-semibold text-third flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded">
+                        <FaHome /> <span>Volunteer Management</span>
+                    </Link>
+                    <div className="hidden md:flex space-x-4">
                         {renderLinks()}
                     </div>
-                    <div className="hidden md:flex space-x-2">
-                        <div className="flex items-center justify-center rounded">
-                            <button onClick={handleLogout} className="px-3 py-1 rounded bg-primary dark:bg-third hover:bg-blue-700 cursor-pointer text-white">
-                                Logout
-                            </button>
-                        </div>
-                        <ThemeToggle />
-                    </div>
                 </div>
-                <div className="w-full h-1 bg-primary dark:bg-fourth"></div>
-            </nav>
+                <div className="flex items-center space-x-4">
+                    <ThemeToggle />
+                    <button
+                        onClick={handleLogout}
+                        className="px-3 py-1 rounded bg-primary dark:bg-third hover:bg-blue-700 cursor-pointer text-white"
+                    >
+                        Logout
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
