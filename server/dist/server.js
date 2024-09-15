@@ -21,7 +21,7 @@ dotenv_1.default.config();
 (0, db_1.default)();
 // Middleware
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:3000', // Replace with your frontend URL
+    origin: 'https://volunteer-management-system-navy.vercel.app', // Replace with your frontend URL
     credentials: true // Enable credentials (cookies, authorization headers)
 }));
 app.use((0, morgan_1.default)("dev"));
