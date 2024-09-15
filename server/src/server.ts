@@ -19,7 +19,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: 'volunteer-management-system-hhh46n83r.vercel.app', // Replace with your frontend URL
+  origin: 'https://volunteer-management-system-navy.vercel.app', // Replace with your frontend URL
   credentials: true // Enable credentials (cookies, authorization headers)
 }));
 app.use(morgan("dev"));
