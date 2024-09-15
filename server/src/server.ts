@@ -19,7 +19,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000', // Replace with your frontend URL
+  origin: 'volunteer-management-system-hhh46n83r.vercel.app', // Replace with your frontend URL
   credentials: true // Enable credentials (cookies, authorization headers)
 }));
 app.use(morgan("dev"));
