@@ -26,7 +26,7 @@ const RegistrationPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/auth/register', {
+      const response = await axios.post('https://volunteer-management-system-ybtz.onrender.com/auth/register', {
         role,
         userName,
         email,
