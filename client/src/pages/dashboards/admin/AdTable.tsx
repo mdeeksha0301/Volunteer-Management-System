@@ -49,7 +49,7 @@ const AdTable: React.FC<AdTableProps> = ({ type }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get<any>(`http://localhost:5000/admin/${type}`, { withCredentials: true });
+      const response = await axios.get<any>(`https://volunteer-management-system-ybtz.onrender.com/admin/${type}`, { withCredentials: true });
       console.log(response.data); // Log the response data to inspect it
       switch (type) {
         case 'events':
@@ -77,7 +77,7 @@ const AdTable: React.FC<AdTableProps> = ({ type }) => {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/admin/${type}/${id}`, { withCredentials: true });
+      await axios.delete(`https://volunteer-management-system-ybtz.onrender.com/admin/${type}/${id}`, { withCredentials: true });
       toast.success('Deleted successfully');
       fetchData(); // Refetch data after deletion
     } catch (error) {
