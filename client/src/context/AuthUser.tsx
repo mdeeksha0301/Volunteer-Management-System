@@ -140,7 +140,7 @@ const AuthUser: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const fetchParticipatedEvents = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/event/participated/${user._id}`, {
+      const response = await axios.get(`https://volunteer-management-system-ybtz.onrender.com/event/participated/${user._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Cache-Control': 'no-cache',
@@ -157,7 +157,7 @@ const AuthUser: React.FC<{ children: ReactNode }> = ({ children }) => {
       const storedToken = localStorage.getItem('token');
       if (storedToken) {
         setToken(storedToken);
-        const response = await axios.get('http://localhost:5000/auth/current-user', {
+        const response = await axios.get('https://volunteer-management-system-ybtz.onrender.com/auth/current-user', {
           headers: {
             Authorization: `Bearer ${storedToken}`,
             'Cache-Control': 'no-cache',
