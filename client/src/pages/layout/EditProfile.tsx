@@ -28,7 +28,7 @@ const EditProfile: React.FC = () => {
                 const token = localStorage.getItem('token');
                 if (!token) throw new Error('No token found');
 
-                const response = await axios.get('http://localhost:5000/user/profile', {
+                const response = await axios.get('https://volunteer-management-system-ybtz.onrender.com/user/profile', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -60,7 +60,7 @@ const EditProfile: React.FC = () => {
             const token = localStorage.getItem('token');
             if (!token) throw new Error('No token found');
 
-            await axios.put('http://localhost:5000/user/profile', {
+            await axios.put('https://volunteer-management-system-ybtz.onrender.com/user/profile', {
                 name,
                 email,
                 phone,
