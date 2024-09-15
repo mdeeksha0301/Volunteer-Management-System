@@ -49,7 +49,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onCancel, fetchOrganizatio
 
       if (event) {
         await axios.put(
-          `http://localhost:5000/event/${event._id}`,
+          `https://volunteer-management-system-ybtz.onrender.com/event/${event._id}`,
           eventData,
           {
             headers: {
@@ -60,7 +60,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, onCancel, fetchOrganizatio
         toast.success('Event updated successfully.');
       } else {
         await axios.post(
-          'http://localhost:5000/event/create',
+          'https://volunteer-management-system-ybtz.onrender.com/event/create',
           eventData,
           {
             headers: {
