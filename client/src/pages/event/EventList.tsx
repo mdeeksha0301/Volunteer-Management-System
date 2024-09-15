@@ -22,7 +22,7 @@ const EventList: React.FC<EventListProps> = ({ events, fetchOrganizationEvents }
   const handleDelete = async (eventId: string) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:5000/event/${eventId}`, {
+      await axios.delete(`https://volunteer-management-system-ybtz.onrender.com/event/${eventId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
