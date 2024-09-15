@@ -9,7 +9,7 @@ const AdminDonations: React.FC = () => {
     useEffect(() => {
         const fetchDonations = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/donation/all', {
+                const response = await axios.get('https://volunteer-management-system-ybtz.onrender.com/donation/all', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
