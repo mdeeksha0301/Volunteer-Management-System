@@ -29,7 +29,7 @@ const Events = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/event/opportunities');
+      const response = await axios.get('https://volunteer-management-system-ybtz.onrender.com/event/opportunities');
       setEvents(response.data); // Correctly update state with fetched data
     } catch (error) {
       toast.error("Error fetching events");
@@ -63,7 +63,7 @@ const Events = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post('http://localhost:5000/event/register', {
+      await axios.post('https://volunteer-management-system-ybtz.onrender.com/event/register', {
         userId: user._id,
         eventId: selectedEvent?._id,
       });
