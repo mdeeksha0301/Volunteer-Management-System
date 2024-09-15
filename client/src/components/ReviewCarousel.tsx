@@ -14,7 +14,7 @@ const ReviewCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/reviews')
+    axios.get('https://volunteer-management-system-ybtz.onrender.com/api/reviews')
       .then(response => {
         setReviews(response.data);
       })
