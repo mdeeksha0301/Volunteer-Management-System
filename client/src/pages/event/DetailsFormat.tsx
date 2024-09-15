@@ -33,7 +33,7 @@ const DetailsFormat: React.FC<EditEventFormProps> = ({ event, onCancel, fetchOrg
     const token = localStorage.getItem('token');
     try {
       const response = await axios.put(
-        `http://localhost:5000/event/edit/${event._id}`,
+        `https://volunteer-management-system-ybtz.onrender.com/event/edit/${event._id}`,
         updatedEvent,
         {
           headers: {
