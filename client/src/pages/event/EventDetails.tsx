@@ -32,7 +32,7 @@ const EventDetails: React.FC = () => {
     if (isAuthorized && token) {
       const fetchEvents = async () => {
         try {
-          const response = await axios.get('http://localhost:5000/event/all', {
+          const response = await axios.get('https://volunteer-management-system-ybtz.onrender.com/event/all', {
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ const EventDetails: React.FC = () => {
   const participateInEvent = async (eventId: string) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/event/participate/${eventId}`,
+        `https://volunteer-management-system-ybtz.onrender.com/event/participate/${eventId}`,
         { user: { _id: user._id } },
         {
           headers: {
@@ -74,7 +74,7 @@ const EventDetails: React.FC = () => {
 
   const deleteEvent = async (eventId: string) => {
     try {
-      await axios.delete(`http://localhost:5000/event/${eventId}`, {
+      await axios.delete(`https://volunteer-management-system-ybtz.onrender.com/event/${eventId}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
