@@ -10,7 +10,7 @@ const UserDonations: React.FC = () => {
         if (user) {
             const fetchDonations = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:5000/donation/user/${user._id}`, {
+                    const response = await axios.get(`https://volunteer-management-system-ybtz.onrender.com/donation/user/${user._id}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                         },
