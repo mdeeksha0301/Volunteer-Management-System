@@ -26,7 +26,7 @@ const AdminEventDetails: React.FC = () => {
         return;
       }
       try {
-        const response = await axios.get('http://localhost:5000/event/all', {
+        const response = await axios.get('https://volunteer-management-system-ybtz.onrender.com/event/all', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const AdminEventDetails: React.FC = () => {
 
   const deleteEvent = async (eventId: string) => {
     try {
-      await axios.delete(`http://localhost:5000/event/${eventId}`, {
+      await axios.delete(`https://volunteer-management-system-ybtz.onrender.com/event/${eventId}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
