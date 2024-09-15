@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000', // Replace with your backend URL
+  baseURL: 'https://volunteer-management-system-ybtz.onrender.com', // Replace with your backend URL
 });
 
 // Add a request interceptor to set the Authorization header for all requests
