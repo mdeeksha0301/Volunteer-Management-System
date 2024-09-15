@@ -17,7 +17,7 @@ const ParticipatedEvents: React.FC = () => {
           participatedEvents.map((event) => (
             <div key={event._id} className="bg-white p-6 shadow-lg rounded-lg border border-primary dark:bg-gray-900 dark:border-gray-600 overflow-hidden">
               <img
-                src={`http://localhost:5000/images/${event._id}.jpg`} // Replace with the correct path to the event image
+                src={`https://volunteer-management-system-ybtz.onrender.com/images/${event._id}.jpg`} // Replace with the correct path to the event image
                 alt={event.title}
                 className="w-full h-32 object-cover rounded-md mb-4"
               />
