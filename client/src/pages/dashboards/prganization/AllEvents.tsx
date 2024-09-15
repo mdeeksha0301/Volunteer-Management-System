@@ -16,7 +16,7 @@ const AllEvents: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/event/all', {
+        const response = await axios.get('https://volunteer-management-system-ybtz.onrender.com/event/all', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
